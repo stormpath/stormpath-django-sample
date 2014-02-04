@@ -1,0 +1,48 @@
+{% extends "home.html" %}
+
+{% block page %}
+<script>
+    var chirps_url = "{% url 'chirps' %}"
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="span12">
+            <form class="form-horizontal" method="post">{% csrf_token %}
+                <fieldset>
+                    <legend>{{ title }}</legend>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </fieldset>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-error">{{ form.non_field_errors }}</div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div class="control-group error">
+                            {{ field }}
+                            <span class="help-inline">
+                                {% for error in field.errors %}{{ error }}{% endfor %}
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="control-group">
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="help-inline"><small>{{ field.help_text }}</small></p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary" >Chirp!</button> <br />
+            </form>
+        </div>
+    </div>
+    <h3>Posted Chirps</h3>
+    <div class="chirps"></div>
+</div>
+
+{% endblock %}
