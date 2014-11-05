@@ -1,10 +1,8 @@
 from django.db import models
 from django.conf import settings
-from django_stormpath.models import StormpathUser
-from stormpath.client import Client
 
-CLIENT = Client(id=settings.STORMPATH_ID,
-            secret=settings.STORMPATH_SECRET)
+from stormpath_django.models import StormpathUser
+from stormpath_django.models import CLIENT
 
 
 class Chirp(models.Model):
@@ -20,10 +18,7 @@ class Chirp(models.Model):
 
 class ChirperUser(StormpathUser):
 
-    def is_admin(self):
-        admin_group = CLIENT.groups.get(settings.STORMPATH_ADMINISTRATORS)
-        return len(admin_group.accounts.search({'email': self.email}))
-
     def is_premium(self):
-        premium_group = CLIENT.groups.get(settings.STORMPATH_PREMIUMS)
+        premium_group = CLIENT.groups.get(settings.STORMPATH_PREMIUM_GROUP)
         return len(premium_group.accounts.search({'email': self.email}))
+

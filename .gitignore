@@ -29,3 +29,4 @@ MANIFEST
 
 # SQLite
 *.db
+.env

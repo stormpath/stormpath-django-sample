@@ -101,9 +101,6 @@ TEMPLATE_LOADERS = (
     # 'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_DIRS = (
-    ABS_PATH(ROOT_DIR, PROJECT_NAME, 'templates')
-)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -116,7 +113,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django_stormpath.backends.StormpathBackend',
+    'stormpath_django.backends.StormpathBackend',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -128,7 +125,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    ABS_PATH(ROOT_DIR, PROJECT_NAME, 'templates')
+    ABS_PATH(ROOT_DIR, PROJECT_NAME, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -138,7 +135,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_stormpath',
+    'django.contrib.admin',
+    'stormpath_django',
     'bootstrap',
     'chirper'
     # Uncomment the next line to enable the admin:
@@ -180,8 +178,14 @@ LOGIN_URL = '/login'
 
 AUTH_USER_MODEL = 'chirper.ChirperUser'
 
-STORMPATH_ID = "apiKeyID"
-STORMPATH_SECRET = "apiKeySecret"
-STORMPATH_APPLICATION =  "https://api.stormpath.com/v1/applications/APP_ID"
-STORMPATH_ADMINISTRATORS = "https://api.stormpath.com/v1/groups/GROUP_ID"
-STORMPATH_PREMIUMS = "https://api.stormpath.com/v1/groups/GROUP_ID"
+# stormpath-django
+STORMPATH_ID = os.environ['STORMPATH_API_KEY_ID']
+STORMPATH_SECRET = os.environ['STORMPATH_API_KEY_SECRET']
+STORMPATH_APPLICATION = os.environ['STORMPATH_APPLICATION']
+
+# chirper
+STORMPATH_PREMIUM_GROUP = os.environ['STORMPATH_PREMIUM_GROUP']
+
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+

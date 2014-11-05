@@ -1,9 +1,11 @@
 from django import forms
-from django_stormpath.forms import UserCreateForm
-from stormpath.client import Client
 from django.utils.safestring import mark_safe
-from django.conf import settings
-from .models import Chirp
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+from stormpath_django.forms import (StormpathUserCreationForm,
+        StormpathUserChangeForm)
+
+from .models import Chirp, ChirperUser
 
 
 class HorizontalRadioRenderer(forms.RadioSelect.renderer):
@@ -11,33 +13,23 @@ class HorizontalRadioRenderer(forms.RadioSelect.renderer):
         return mark_safe(u'\n'.join(u'%s\n' % w for w in self))
 
 
-class ChirperCreateForm(UserCreateForm):
+class ChirperCreateForm(StormpathUserCreationForm):
+    pass
 
-    ACC_CHOICES = (
-        ('Admins', 'Administrator',),
-        ('Premiums', 'Premium',),
-        ('Basics', 'Basic'))
 
-    account_type = forms.ChoiceField(
-        widget=forms.RadioSelect(renderer=HorizontalRadioRenderer),
-        choices=ACC_CHOICES,
-        initial='Basics')
+class ChirperUpdateForm(StormpathUserChangeForm):
+    class Meta:
+        model = ChirperUser
+        exclude = ('user_permissions', 'last_login', 'password',
+                'href', 'groups')
 
-    def save(self):
-        super(ChirperCreateForm, self).save()
-        client = Client(api_key={'id': settings.STORMPATH_ID,
-                'secret': settings.STORMPATH_SECRET})
-        account_type = self.cleaned_data['account_type']
-        if account_type == 'Admins':
-            admin_group = client.groups.get(
-                settings.STORMPATH_ADMINISTRATORS)
-            self.account.add_group(admin_group)
-            self.account.save()
-
-        elif account_type == 'Premiums':
-            premium_group = client.groups.get(settings.STORMPATH_PREMIUMS)
-            self.account.add_group(premium_group)
-            self.account.save()
+    def __init__(self, *args, **kwargs):
+        super(ChirperUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['password'].help_text = 'Passwords are not stored in the local DB. <a href="/change/password/">Change password here</a>'
+        self.fields['is_active'].widget.attrs['disabled'] = 'disabled'
+        self.fields['is_admin'].widget.attrs['disabled'] = 'disabled'
+        self.fields['is_staff'].widget.attrs['disabled'] = 'disabled'
+        self.fields['is_superuser'].widget.attrs['disabled'] = 'disabled'
 
 
 class ChirpForm(forms.ModelForm):
