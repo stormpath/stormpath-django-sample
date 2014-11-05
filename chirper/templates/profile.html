@@ -28,7 +28,7 @@
                     <label class="control-label">{{ field.label }}</label>
                     <div class="controls">{{ field }}
                         {% if field.help_text %}
-                            <p class="help-inline"><small>{{ field.help_text }}</small></p>
+                            <p class="help-inline"><small>{{ field.help_text|safe }}</small></p>
                         {% endif %}
                     </div>
                 </div>

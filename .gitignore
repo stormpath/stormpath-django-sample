@@ -1,5 +1,6 @@
 *.log
 *.pot
+local_settings.py
 *.py[co]
 
 # Packages
@@ -28,3 +29,4 @@ MANIFEST
 
 # SQLite
 *.db
+.env

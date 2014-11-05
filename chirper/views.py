@@ -15,10 +15,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 import json
 
-from django_stormpath.forms import (UserUpdateForm,
-    PasswordResetEmailForm, PasswordResetForm)
-
-from .forms import ChirpForm, ChirperCreateForm
+from .forms import ChirpForm, ChirperCreateForm, ChirperUpdateForm
+from stormpath_django.forms import PasswordResetForm, PasswordResetEmailForm
 from .models import Chirp
 
 
@@ -28,7 +26,7 @@ def home(request):
     """
     form = ChirpForm(request.POST or None)
 
-    user_is_admin = request.user.is_admin()
+    user_is_admin = request.user.is_superuser
     user_is_premium = request.user.is_premium()
 
     if form.is_valid():
@@ -68,7 +66,7 @@ def chirping(request):
         'is_admin': request.user.is_superuser})
 
     return HttpResponse(json.dumps([{'chirps': rendered}]),
-        mimetype="application/json")
+        content_type="application/json")
 
 
 @login_required
@@ -80,7 +78,7 @@ def delete_chirp(request, id):
     the Stormpath service.
     """
 
-    if request.user.is_admin():
+    if request.user.is_superuser:
         Chirp.objects.get(pk=id).delete()
     else:
         messages.add_message(request, messages.ERROR,
@@ -92,17 +90,12 @@ def delete_chirp(request, id):
 def stormpath_login(request):
     """Verify user login.
 
-    It uses django_stormpath to check if user credentials are valid.
-    The superuser flag is set because we need to often check if a user is admin
-    and we want to reduce requests to Stormpath.
-
+    It uses stormpath_django to check if user credentials are valid.
     """
     form = AuthenticationForm(data=(request.POST or None))
 
     if form.is_valid():
         user = form.get_user()
-        user.is_superuser = user.is_admin()
-        user.save()
         login(request, user)
         return redirect('home')
 
@@ -182,7 +175,7 @@ def reset_password(request):
             form.save(request.GET.get('sptoken'))
             success_message = \
                 """Success! Your password has been successfully changed.
-                You can now log in."""
+                You log in now."""
             messages.add_message(request, messages.SUCCESS, success_message)
             return redirect('login')
         except Exception as e:
@@ -196,7 +189,17 @@ def reset_password(request):
 def update_user(request):
     """Update user view.
     """
-    form = UserUpdateForm(request.POST or None, instance=request.user)
+    user_is_admin = request.user.is_superuser
+    user_is_premium = request.user.is_premium()
+
+    if user_is_admin:
+        acc_type = 'Admin'
+    elif user_is_premium:
+        acc_type = 'Premium'
+    else:
+        acc_type = 'Basic'
+
+    form = ChirperUpdateForm(request.POST or None, instance=request.user)
     if form.is_valid():
         try:
             form.save()
@@ -206,5 +209,5 @@ def update_user(request):
             messages.add_message(request, messages.ERROR, str(e))
 
     return render(request, 'profile.html', {"form": form,
-        "title": "Chirper's Pedigree"})
+        "title": "Chirper's Pedigree", 'acc_type': acc_type})
 
