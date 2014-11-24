@@ -1,8 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-from stormpath_django.models import StormpathUser
-from stormpath_django.models import CLIENT
+from django_stormpath.models import StormpathUser
+from django_stormpath.models import CLIENT
 
 
 class Chirp(models.Model):

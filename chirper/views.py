@@ -16,7 +16,7 @@ from django.contrib import messages
 import json
 
 from .forms import ChirpForm, ChirperCreateForm, ChirperUpdateForm
-from stormpath_django.forms import PasswordResetForm, PasswordResetEmailForm
+from django_stormpath.forms import PasswordResetForm, PasswordResetEmailForm
 from .models import Chirp
 
 
@@ -90,7 +90,7 @@ def delete_chirp(request, id):
 def stormpath_login(request):
     """Verify user login.
 
-    It uses stormpath_django to check if user credentials are valid.
+    It uses django_stormpath to check if user credentials are valid.
     """
     form = AuthenticationForm(data=(request.POST or None))
 

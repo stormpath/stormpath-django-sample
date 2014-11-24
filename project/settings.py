@@ -113,7 +113,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'stormpath_django.backends.StormpathBackend',
+    'django_stormpath.backends.StormpathBackend',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'stormpath_django',
+    'django_stormpath',
     'bootstrap',
     'chirper'
     # Uncomment the next line to enable the admin:
