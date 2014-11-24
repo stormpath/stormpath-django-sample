@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if id_site %}
+<legend>
+    Welcome to Chirper! <br />
+    A sample <a href="https://www.stormpath.com">Stormpath</a> application.
+    You are using the <a href="http://docs.stormpath.com/guides/using-id-site/"><strong>ID Site</strong> example</a>.
+    <p><a href="{% url 'stormpath_id_site_login' %}">Log in with ID site</a></p>
+    <p><a href="{% url 'stormpath_id_site_forgot_password' %}">Forgot your password?</a></p>
+    <p>Don't have an account? <a href="{% url 'stormpath_id_site_register' %}">Sign Up!</a></p>
+</legend>
+{% else %}
 <form class="form-horizontal" method="post">{% csrf_token %}
     <fieldset>
         <legend>
@@ -38,10 +48,11 @@
         {% endfor %}
     </fieldset>
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary" >Log In</button> <br />
-        <a href="{% url 'stormpath_id_site_forgot_password' %}">Forgot your password?</a> <br />
-        Don't have an account? <a href="{% url 'stormpath_id_site_register' %}">Sign Up!</a>
+        <button type="submit" class="btn btn-primary">Log In</button> <br />
+        <a href="{% url 'password_send' %}">Forgot your password?</a> <br />
+        Don't have an account? <a href="{% url 'signup' %}">Sign Up!</a>
     </div>
 </form>
+{% endif %}
 
 {% endblock %}

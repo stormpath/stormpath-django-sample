@@ -189,7 +189,9 @@ STORMPATH_PREMIUM_GROUP = os.environ['STORMPATH_PREMIUM_GROUP']
 
 STORMPATH_ID_SITE_CALLBACK_URI = 'http://localhost:8000/stormpath-id-site-callback'
 
-LOGIN_REDIRECT_URL = '/django/profile'
+LOGIN_REDIRECT_URL = '/django/login'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+USE_ID_SITE = True
 
