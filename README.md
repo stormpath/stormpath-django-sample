@@ -45,3 +45,15 @@ Running Chirper is the same as running any other Django application.
 $ python manage.py syncdb
 $ python manage.py runserver
 ```
+
+## ID Site
+
+This example showcases both building your own auth views and templates (for logging in, registering, reseting passwords)
+and Stormpath's [ID Site functionality](http://docs.stormpath.com/guides/using-id-site/) that provides all of this
+for the user out of the box.
+
+By default the example uses ID Site but this can be switched to the custom django views by changing this settings:
+
+    USE_ID_SITE = False
+
+For more info please refer to the [django-stormpath documentation](https://github.com/stormpath/stormpath-django).
