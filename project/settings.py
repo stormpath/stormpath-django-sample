@@ -114,6 +114,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'django_stormpath.backends.StormpathBackend',
+    'django_stormpath.backends.StormpathIdSiteBackend',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -186,6 +187,9 @@ STORMPATH_APPLICATION = os.environ['STORMPATH_APPLICATION']
 # chirper
 STORMPATH_PREMIUM_GROUP = os.environ['STORMPATH_PREMIUM_GROUP']
 
+STORMPATH_ID_SITE_CALLBACK_URI = 'http://localhost:8000/stormpath-id-site-callback'
+
+LOGIN_REDIRECT_URL = '/django/profile'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
