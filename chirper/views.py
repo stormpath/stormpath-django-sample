@@ -13,10 +13,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.conf import settings
+
 import json
 
 from .forms import ChirpForm, ChirperCreateForm, ChirperUpdateForm
-from stormpath_django.forms import PasswordResetForm, PasswordResetEmailForm
+from django_stormpath.forms import PasswordResetForm, PasswordResetEmailForm
 from .models import Chirp
 
 
@@ -46,7 +48,8 @@ def home(request):
 
     return render(request, 'chirps.html', {"form": form,
         "title": "Chirper's Song",
-        "acc_type": acc_type})
+        "acc_type": acc_type,
+        'id_site': settings.USE_ID_SITE})
 
 
 @login_required
@@ -90,8 +93,11 @@ def delete_chirp(request, id):
 def stormpath_login(request):
     """Verify user login.
 
-    It uses stormpath_django to check if user credentials are valid.
+    It uses django_stormpath to check if user credentials are valid.
     """
+    if request.user.is_authenticated():
+        return redirect('home')
+
     form = AuthenticationForm(data=(request.POST or None))
 
     if form.is_valid():
@@ -100,7 +106,7 @@ def stormpath_login(request):
         return redirect('home')
 
     return render(request, 'login.html', {"form": form,
-        "title": "Chirper's Door"})
+        "title": "Chirper's Door", 'id_site': settings.USE_ID_SITE})
 
 
 @login_required
@@ -209,5 +215,5 @@ def update_user(request):
             messages.add_message(request, messages.ERROR, str(e))
 
     return render(request, 'profile.html', {"form": form,
-        "title": "Chirper's Pedigree", 'acc_type': acc_type})
+        "title": "Chirper's Pedigree", 'acc_type': acc_type, 'id_site': settings.USE_ID_SITE})
 

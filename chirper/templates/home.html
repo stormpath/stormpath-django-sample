@@ -14,7 +14,7 @@
                 <a href="/admin/">Admin</a>
             </li>
             {% endif %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <li><a href="{% if id_site %}{% url 'stormpath_id_site_logout' %}{% else %}{% url 'logout' %}{% endif %}">Logout</a></li>
         </ul>
     </div>
 </div>

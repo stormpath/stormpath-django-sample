@@ -2,7 +2,7 @@ from django import forms
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from stormpath_django.forms import (StormpathUserCreationForm,
+from django_stormpath.forms import (StormpathUserCreationForm,
         StormpathUserChangeForm)
 
 from .models import Chirp, ChirperUser
