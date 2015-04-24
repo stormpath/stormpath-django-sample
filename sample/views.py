@@ -6,7 +6,7 @@ This is because we want to print the messages provided by Stormpath.
 """
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.conf import settings
@@ -21,6 +21,9 @@ def stormpath_login(request):
     """Verify user login.
     It uses django_stormpath to check if user credentials are valid.
     """
+    if settings.USE_ID_SITE:
+        return redirect('sample:stormpath_id_site_login')
+
     if request.user.is_authenticated():
         return redirect('sample:home')
 
@@ -35,9 +38,23 @@ def stormpath_login(request):
         request, 'login.html', {"form": form, 'id_site': settings.USE_ID_SITE})
 
 
+@login_required
+def stormpath_logout(request):
+    """Simple logout view.
+    """
+    if settings.USE_ID_SITE:
+        return redirect('sample:stormpath_id_site_logout')
+
+    logout(request)
+    return redirect('sample:home')
+
+
 def register(request):
     """User creation view.
     """
+    if settings.USE_ID_SITE:
+        return redirect('sample:stormpath_id_site_register')
+
     form = StormpathUserCreationForm(request.POST or None)
 
     if form.is_valid():

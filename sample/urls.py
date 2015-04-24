@@ -8,10 +8,13 @@ from .views import *
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name="home.html"), name='home'),
-    url(r'^django-register/$', register, name='register'),
-    url(r'^django-logout/$', 'django.contrib.auth.views.logout',
-        {'next_page': '/'}, name='logout'),
-    url(r'^django-login/$', stormpath_login, name='login'),
     url(r'^dashboard/$', dashboard, name='dashboard'),
+    url(r'^django-register/$', register, name='register'),
+    url(r'^django-login/$', stormpath_login, name='login'),
+    url(r'^django-logout/$', stormpath_logout, name='logout'),
 )
 
+if settings.USE_ID_SITE:
+    urlpatterns += patterns('',
+        url(r'', include(django_stormpath.urls)),
+    )

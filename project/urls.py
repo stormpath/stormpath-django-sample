@@ -15,9 +15,3 @@ urlpatterns = patterns('',
     url(r'', include('sample.urls', namespace='sample')),
     url(r'^admin/', include(admin.site.urls)),
 )
-
-if settings.USE_ID_SITE:
-    urlpatterns += patterns('',
-        url(r'', include(django_stormpath.urls)),
-    )
-
