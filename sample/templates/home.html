@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="jumbotron" id="welcome">
+        <h1>Welcome to django-stormpath!</h1>
+        <p class="lead">
+            <br />
+            <br />
+            Welcome to this <i>gloriously simple</i>
+            <a href="https://github.com/stormpath/stormpath-django">django-stormpath</a> sample
+            application!
+        <ul>
+        <li>First, take a look through this very basic site.</li>
+        <li>Then, check out this project's source code <a href="https://github.com/stormpath/stormpath-django-sample">on GitHub</a>.</li>
+        <li>Lastly, integrate django-stormpath into your own sites!</li>
+    </ul>
+        </p>
+        <br />
+        <br />
+        <h2>What This Sample App Demonstrates</h2>
+        <br />
+        <br />
+        <p>
+            This simple application demonstrates how easy it is to register, login,
+            and securely authenticate users on your website using django-stormpath.
+        </p>
+        <p>
+            Aren't a Stormpath user yet? <a href="https://stormpath.com">Go signup now!</a>
+        </p>
+        <br />
+        <br />
+        <p>
+            <b>NOTE</b>: This application will NOT work until you have gone through
+            the instructions found in this project's
+            <code>README.md</code> file. For more information, please follow the guide
+            on this project's
+            <a href="https://github.com/stormpath/stormpath-django-sample">GitHub page</a>.
+        </p>
+        <p class="bigbutton"><a class="bigbutton btn btn-lg btn-danger" href="{% url 'sample:register' %}" role="button">Register</a></p>
+    </div>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+    $(function() {
+        $('#nav-tabs li.active').removeClass('active');
+        $('#home-tab').addClass('active');
+    });
+</script>
+{% endblock %}

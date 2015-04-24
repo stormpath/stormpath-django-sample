@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="register">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <form class="bs-example form-horizontal" method="post" action="">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Create a New Account</legend>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-dismissable alert-danger register-fail alert-{{ message.tags }}">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-dismissable alert-danger register-fail">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        <p>
+                            Registering for this site will create a new user account for you via
+                            <a href="https://stormpath.com">Stormpath</a>, then log you in
+                            automatically.
+                        </p>
+                        <div class="alert alert-dismissable alert-info">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>NOTE</strong> Your password must be between 8 and 100
+                            characters, and must contain lowercase letters, uppercase letters,
+                            and numbers.
+                        </div>
+
+                        <div class="form-group {% if form.username.errors %}error{% endif %}">
+                            <label for="username" class="col-lg-4 control-label">Username</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" {% if form.username.value %}value={{ form.username.value }}{% endif %} autofocus>
+                                {% if form.username.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.username.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.email.errors %}error{% endif %}">
+                            <label for="email" class="col-lg-4 control-label">Email</label>
+                            <div class="col-lg-4">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" {% if form.email.value %}value={{ form.email.value }}{% endif %}>
+                                {% if form.email.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.given_name.errors %}error{% endif %}">
+                            <label for="given_name" class="col-lg-4 control-label">Given name</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="given_name" name="given_name" placeholder="Given name" {% if form.given_name.value %}value={{ form.given_name.value }}{% endif %}>
+                                {% if form.given_name.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.given_name.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.surname.errors %}error{% endif %}">
+                            <label for="surname" class="col-lg-4 control-label">Surname</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" {% if form.surname.value %}value={{ form.surname.value }}{% endif %}>
+                                {% if form.surname.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.surname.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.password1.errors %}error{% endif %}">
+                            <label for="password1" class="col-lg-4 control-label">Password</label>
+                            <div class="col-lg-4">
+                                <input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
+                                {% if form.password1.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.password1.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.password2.errors %}error{% endif %}">
+                            <label for="password2" class="col-lg-4 control-label">Password confirmation</label>
+                            <div class="col-lg-4">
+                                <input type="password" class="form-control" id="password2" name="password2" placeholder="Password">
+                                {% if form.password2.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.password2.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-4">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <h2>A Note About Stormpath Security</h2>
+                <p>
+                    In a real environment, you should <b>only deploy your application</b>
+                    behind SSL / TLS to avoid having user credentials sent in plain text
+                    over the network.
+                </p>
+                <p>
+                    Stormpath user creation is incredibly secure, is not susceptible to any
+                    known vulnerabilities (MITM, hashing issues, replay attacks, etc.), and
+                    provides you with a number of options to improve security (including
+                    built-in email verification, among other things).  We will not verify
+                    your account by email now, but this can be easily enabled.
+                </p>
+                <p class="last-p">
+                    Stormpath can also be configured to allow for weaker (or force stronger)
+                    passwords, so it can fit into any application workflow.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

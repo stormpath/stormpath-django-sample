@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block body %}
+{% if id_site %}
+    <legend>
+        Welcome to sample <a href="https://www.stormpath.com">Stormpath</a> application.
+        You are using the <a href="http://docs.stormpath.com/guides/using-id-site/"><strong>ID Site</strong> example</a>.
+        <p><a href="{% url 'stormpath_id_site_login' %}">Log in with ID site</a></p>
+        <p><a href="{% url 'stormpath_id_site_forgot_password' %}">Forgot your password?</a></p>
+        <p>Don't have an account? <a href="{% url 'stormpath_id_site_register' %}">Sign Up!</a></p>
+    </legend>
+{% else %}
+    <div class="login">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <form class="bs-example form-horizontal" method="post" action="">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Login</legend>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-dismissable alert-danger login-fail">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        <p class="last-p">
+                            Once you enter your credentials and hit the Login button below,
+                            your credentials will be securely sent to
+                            <a href="https://stormpath.com">Stormpath</a> and verified.  If
+                            your credentials are valid, you'll be logged in using a secure
+                            session -- otherwise, you'll get a user friendly error message.
+                        </p>
+
+                        <div class="form-group {% if form.username.errors %}error{% endif %}">
+                            <label for="username" class="col-lg-4 control-label">Username</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" {% if form.username.value %}value={{ form.username.value }}{% endif %} autofocus>
+                                {% if form.username.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.username.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group {% if form.password.errors %}error{% endif %}">
+                            <label for="password" class="col-lg-4 control-label">Password</label>
+                            <div class="col-lg-4">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                {% if form.password.errors %}
+                                    <span class="help-inline">
+                                        {% for error in form.password.errors %}{{ error }}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-4">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+    $(function() {
+        $('#nav-tabs li.active').removeClass('active');
+        $('#login-tab').addClass('active');
+    });
+</script>
+{% endblock %}

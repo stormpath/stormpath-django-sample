@@ -1,0 +1,53 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>django-stormpath (sample) {% block title %}{% endblock %}</title>
+        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/style.css" %}" rel="stylesheet">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <ul id="nav-tabs" class="nav nav-pills pull-right">
+                    <li id="home-tab"><a href="{% url 'sample:home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li id="dashboard-tab"><a href="{% url 'sample:dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'sample:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li id="login-tab"><a href="{% url 'sample:login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+                <h3 class="text-muted">django-stormpath</h3>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+        <footer>
+            <p>
+                <img class="lock" src="{% static "img/lock.png" %}"/>
+                &nbsp;
+                <span>Secured By</span>
+                &nbsp;
+                <img src="{% static "img/stormpath.png" %}"/>
+            </p>
+        </footer>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script src="{% static "js/bootstrap.min.js" %}"></script>
+        {% endblock %}
+    </body>
+</html>
