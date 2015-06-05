@@ -1,22 +1,11 @@
 {
   "name": "stormpath-django sample",
   "description": "Example application demonstrating how to use the Django plugin for Stormpath",
-  "repository": "https://github.com/stormpath/stormpath-django-sample",
+  "repository": "https://github.com/avojnovicDk/stormpath-django-sample",
   "logo": "http://docs.stormpath.com/images/heroku/stormpath-icon.svg",
   "keywords": ["django", "stormpath", "heroku", "sample"],
-  "env": {
-      "STORMPATH_API_KEY_ID": {
-          "description": "Stormpath API key ID."
-      },
-      "STORMPATH_API_KEY_SECRET": {
-          "description": "Stormpath API key secret."
-      },
-      "STORMPATH_APPLICATION": {
-          "description": "Stormpath application href."
-      },
-      "STORMPATH_ID_SITE_CALLBACK_URI": {
-          "description": "Stormpath callback uri for ID Site.",
-          "required": false
-      }
-  }
+  "addons": [
+    "oauthio",
+    "stormpath"
+  ]
 }
