@@ -4,7 +4,7 @@
   "repository": "https://github.com/avojnovicDk/stormpath-django-sample",
   "logo": "http://docs.stormpath.com/images/heroku/stormpath-icon.svg",
   "keywords": ["django", "stormpath", "heroku", "sample"],
-  "success_url": "/",
+  "success_url": "/stormpath-id-site-callback",
   "addons": [
     "oauthio",
     "stormpath"
