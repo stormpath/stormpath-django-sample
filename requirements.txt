@@ -1,1 +1,3 @@
 django-stormpath>=0.0.7
+django-toolbelt==0.0.1
+dj-database-url==0.3.0

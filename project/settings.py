@@ -19,21 +19,15 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sample.db',  # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',  # Set to empty string for default.
-    }
+    'default': dj_database_url.config()
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -182,12 +176,17 @@ AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
 # stormpath-django
 STORMPATH_ID = os.environ['STORMPATH_API_KEY_ID']
 STORMPATH_SECRET = os.environ['STORMPATH_API_KEY_SECRET']
-STORMPATH_APPLICATION = os.environ['STORMPATH_APPLICATION']
+# stormpath Heroku addon sets STORMPATH_URL environment variable
+STORMPATH_APPLICATION = os.environ.get(
+    'STORMPATH_APPLICATION', os.environ.get('STORMPATH_URL'))
 
-STORMPATH_ID_SITE_CALLBACK_URI = 'http://localhost:8000/stormpath-id-site-callback'
+STORMPATH_ID_SITE_CALLBACK_URI = os.environ.get(
+    'STORMPATH_ID_SITE_CALLBACK_URI')
 
 LOGIN_REDIRECT_URL = '/'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 USE_ID_SITE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
