@@ -1,3 +1,5 @@
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 stormpath-django-sample
 =======================
 
@@ -18,6 +20,7 @@ Stormpath Django required you to have these environment variables set:
     STORMPATH_API_KEY_ID = "apiKeyId"
     STORMPATH_API_KEY_SECRET = "apiKeySecret"
     STORMPATH_APPLICATION = "https://api.stormpath.com/v1/applications/APP_ID"
+    STORMPATH_ID_SITE_CALLBACK_URI = "http://localhost:8000/stormpath-id-site-callback"
 
 You need to make sure database and other standard Django settings are correct.
 E.g. Chirper has to be specified in INSTALLED_APPS of the project.
