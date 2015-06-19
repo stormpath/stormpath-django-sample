@@ -1,0 +1,12 @@
+{
+  "name": "stormpath-django sample",
+  "description": "Example application demonstrating how to use the Django plugin for Stormpath",
+  "repository": "https://github.com/avojnovicDk/stormpath-django-sample",
+  "logo": "http://docs.stormpath.com/images/heroku/stormpath-icon.svg",
+  "keywords": ["django", "stormpath", "heroku", "sample"],
+  "success_url": "/stormpath-id-site-callback",
+  "addons": [
+    "oauthio",
+    "stormpath"
+  ]
+}

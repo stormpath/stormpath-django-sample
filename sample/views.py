@@ -33,7 +33,7 @@ def stormpath_login(request):
         user = form.get_user()
         login(request, user)
         return redirect('sample:home')
-    print form.errors
+
     return render(
         request, 'login.html', {"form": form, 'id_site': settings.USE_ID_SITE})
 
