@@ -13,8 +13,19 @@ from django.conf import settings
 
 from django_stormpath.models import APPLICATION
 from django_stormpath.forms import StormpathUserCreationForm
+from django_stormpath.views import stormpath_id_site_callback
+from stormpath.error import Error as StormpathError
 
 from sample.forms import SampleUserCustomInfoForm
+
+
+def handled_stormpath_id_site_callback(request):
+    """Handle stormpath_id_site_callback's errors.
+    """
+    try:
+        return stormpath_id_site_callback(request)
+    except StormpathError:
+        return redirect('sample:home')
 
 
 def stormpath_login(request):
