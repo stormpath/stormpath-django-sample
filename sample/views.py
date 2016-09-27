@@ -1,9 +1,11 @@
-"""Django views for the Chirper app.
+"""
+Django views for the Chirper app.
 
 Note that every save call either passes or raises an Exception.
 This is because we want to print the messages provided by Stormpath.
-
 """
+
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
@@ -20,8 +22,7 @@ from sample.forms import SampleUserCustomInfoForm
 
 
 def handled_stormpath_id_site_callback(request):
-    """Handle stormpath_id_site_callback's errors.
-    """
+    """Handle stormpath_id_site_callback's errors."""
     try:
         return stormpath_id_site_callback(request)
     except StormpathError:
@@ -29,8 +30,9 @@ def handled_stormpath_id_site_callback(request):
 
 
 def stormpath_login(request):
-    """Verify user login.
-    It uses django_stormpath to check if user credentials are valid.
+    """
+    Verify user login.  It uses django_stormpath to check if user credentials
+    are valid.
     """
     if settings.USE_ID_SITE:
         return redirect('sample:stormpath_id_site_login')
@@ -51,8 +53,7 @@ def stormpath_login(request):
 
 @login_required
 def stormpath_logout(request):
-    """Simple logout view.
-    """
+    """Simple logout view."""
     if settings.USE_ID_SITE:
         return redirect('sample:stormpath_id_site_logout')
 
@@ -61,8 +62,7 @@ def stormpath_logout(request):
 
 
 def register(request):
-    """User creation view.
-    """
+    """User creation view."""
     if settings.USE_ID_SITE:
         return redirect('sample:stormpath_id_site_register')
 
@@ -83,7 +83,8 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    """This view renders a simple dashboard page for logged in users.
+    """
+    This view renders a simple dashboard page for logged in users.
 
     Users can see their personal information on this page, as well as store
     additional data to their account (if they so choose).
