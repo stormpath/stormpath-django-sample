@@ -10,6 +10,18 @@ The sample application uses the
 providing Django authentication backend, User models and views integrated
 with the Stormpath authentication service.
 
+## Install
+
+Once you've cloned this repository locally, you need to install all of the
+required project dependencies.
+
+You can do this by running:
+
+```console
+$ pip install -r requirements.txt
+```
+
+
 ## Setup
 
 You should have the `stormpath-django` Python module installed before trying
